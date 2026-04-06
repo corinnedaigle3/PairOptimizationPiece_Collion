@@ -5527,7 +5527,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 788e117d9f090df4dafd47d1ae510c9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RoundManager
-  Blocks: []
 --- !u!4 &1022571763
 Transform:
   m_ObjectHideFlags: 0

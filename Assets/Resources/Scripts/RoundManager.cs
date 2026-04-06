@@ -17,6 +17,12 @@ public class RoundManager : MonoBehaviour
         foreach (BlockBreaking TempItem in TempList)
         {
             Blocks.Add(TempItem.gameObject);
+            TempItem.onBlockDestroyed += RemoveBlock();
         }
+    }
+
+    private void RemoveBlock(GameObject destroyedBlock)
+    {
+
     }
 }
