@@ -17,6 +17,24 @@ public class BallMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         rb.bodyType = RigidbodyType2D.Dynamic;
+        RunLaunchBall();
+    }
+
+    /* Subscribes and unsubribes to the the ball exit area event.
+     */
+    private void OnEnable()
+    {
+        BallCollision.OnBallExitArea += RunLaunchBall;
+    }
+    private void OnDisable()
+    {
+        BallCollision.OnBallExitArea -= RunLaunchBall;
+    }
+
+    /* Runs the launchball coroutine.
+     */
+    private void RunLaunchBall()
+    {
         StartCoroutine(LaunchBall());
     }
 
