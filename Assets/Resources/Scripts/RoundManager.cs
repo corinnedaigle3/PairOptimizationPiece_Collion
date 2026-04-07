@@ -1,10 +1,14 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System;
 
 public class RoundManager : MonoBehaviour
 {
     /// Variables
    
+    // Event for when round is complete, with bool for win or loss.
+    public static event Action<bool> OnRoundComplete;
+
     // Array that references all remaining blocks.
     public List<GameObject> Blocks = new List<GameObject>();
 
@@ -13,6 +17,9 @@ public class RoundManager : MonoBehaviour
 
     // Reference to the ball game object.
     [SerializeField] private GameObject Ball;
+
+    // Reference to the paddle game object.
+    [SerializeField] private GameObject Paddle;
 
     // Reference to the UI manager.
     [SerializeField] private UIManager UIManager;
@@ -32,14 +39,14 @@ public class RoundManager : MonoBehaviour
         UIManager.UpdateLivesText(Lives);
     }
 
-    /* Remove destroued block from list of blocks
+    /* Remove destroued block from list of blocks. Invoke round complete event with true for a win if none left.
      */
     private void RemoveBlock(GameObject destroyedBlock)
     {
         Blocks.Remove(destroyedBlock);
         if (Blocks.Count == 0)
         {
-            Debug.Log("Round Complete");
+            WinGame();
         }
     }
 
@@ -70,10 +77,24 @@ public class RoundManager : MonoBehaviour
         }
     }
 
-    /* Log that the game is over.
+    /* Disable the paddle and blocks then invokes the round complete event with false for a loss.
      */
     private void LoseGame()
     {         
-        Debug.Log("Game Over");
+        foreach (GameObject TempBlock in Blocks)
+        {
+            TempBlock.SetActive(false);
+        }
+        Paddle.SetActive(false);
+
+        OnRoundComplete?.Invoke(false);
+    }
+
+    /* Set ball inactive then invokes the round complete event with true for a win.
+     */
+    private void WinGame()
+    {
+        Ball.SetActive(false);
+        OnRoundComplete?.Invoke(true);
     }
 }
