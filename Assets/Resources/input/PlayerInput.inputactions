@@ -14,6 +14,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "NewRound",
+                    "type": "Button",
+                    "id": "b596d431-f4f5-4a1d-8af1-cf641d3514eb",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -82,6 +91,17 @@
                     "action": "UpDownMovement",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "d7895ec4-1b62-4bae-bd3a-fe53be641920",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "NewRound",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

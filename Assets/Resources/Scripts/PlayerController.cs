@@ -6,10 +6,34 @@ public class PlayerController : MonoBehaviour
     /// Variables
     // Movement speed multiplier
     [SerializeField] private float moveSpeed = 5f;
+
     // Input value for up down movement
     private float inputValue;
 
+    // Reference to player input component for reading input actions.
+    public PlayerInput PlayerInput;
+
     /// Methods
+    /* Get reference to player input component.
+     */
+    private void Awake()
+    {
+        PlayerInput = GetComponent<PlayerInput>();
+    }
+
+    /* Subscribe and unsubscribe to the input action for up down movement.
+     */
+    private void OnEnable()
+    {
+        PlayerInput.actions["UpDownMovement"].performed += OnUpDownMovement;
+        PlayerInput.actions["UpDownMovement"].canceled += OnUpDownMovement;
+    }
+    private void OnDisable()
+    {
+        PlayerInput.actions["UpDownMovement"].performed -= OnUpDownMovement;
+        PlayerInput.actions["UpDownMovement"].canceled += OnUpDownMovement;
+    }
+
     /* Read and stores in the input value read from the input action.
      * @param context - The context of the input action that contains information about it.
      */

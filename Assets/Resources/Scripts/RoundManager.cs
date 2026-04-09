@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System;
+using UnityEngine.InputSystem;
 
 public class RoundManager : MonoBehaviour
 {
@@ -11,6 +12,9 @@ public class RoundManager : MonoBehaviour
 
     // Array that references all remaining blocks.
     public List<GameObject> Blocks = new List<GameObject>();
+
+    // Int for the number of blocks left in the round.
+    private int ActiveBlocks;
 
     // Lives left for the player before they lose the game.
     private int Lives = 3;
@@ -24,9 +28,13 @@ public class RoundManager : MonoBehaviour
     // Reference to the UI manager.
     [SerializeField] private UIManager UIManager;
 
+    // Reference to the player input for starting a new round.
+    [SerializeField] private PlayerInput PlayerInput;
+
     /// Methods
 
-    /* Find all block breaking component then gets their game objects and adds them to a list. Updates lives text on the UI.
+    /* Find all block breaking component then gets their game objects and adds them to a list. Set blocks, ball, and paddle sprite to inactive.
+     * Register input action for new round start.
      */
     private void Start()
     {
@@ -34,17 +42,20 @@ public class RoundManager : MonoBehaviour
         foreach (BlockBreaking TempItem in TempList)
         {
             Blocks.Add(TempItem.gameObject);
+            TempItem.gameObject.SetActive(false);
         }
+        Ball.SetActive(false);
+        Paddle.GetComponent<SpriteRenderer>().enabled = false;
 
-        UIManager.UpdateLivesText(Lives);
+        PlayerInput.actions["NewRound"].performed += StartNewRound;
     }
 
     /* Remove destroued block from list of blocks. Invoke round complete event with true for a win if none left.
      */
-    private void RemoveBlock(GameObject destroyedBlock)
+    private void RemoveBlock()
     {
-        Blocks.Remove(destroyedBlock);
-        if (Blocks.Count == 0)
+        ActiveBlocks--;
+        if (ActiveBlocks == 0)
         {
             WinGame();
         }
@@ -77,24 +88,52 @@ public class RoundManager : MonoBehaviour
         }
     }
 
-    /* Disable the paddle and blocks then invokes the round complete event with false for a loss.
+    /* Disable the blocks and paddle sprite then invokes the round complete event with false for a loss. Register input action for new round start.
      */
     private void LoseGame()
     {         
-        foreach (GameObject TempBlock in Blocks)
+        foreach (GameObject Block in Blocks)
         {
-            TempBlock.SetActive(false);
+            Block.SetActive(false);
         }
-        Paddle.SetActive(false);
+        Paddle.GetComponent<SpriteRenderer>().enabled = false;
 
         OnRoundComplete?.Invoke(false);
+        PlayerInput.actions["NewRound"].performed += StartNewRound;
     }
 
-    /* Set ball inactive then invokes the round complete event with true for a win.
+    /* Set ball inactive then invokes the round complete event with true for a win. Register input action for new round start.
      */
     private void WinGame()
     {
         Ball.SetActive(false);
         OnRoundComplete?.Invoke(true);
+        PlayerInput.actions["NewRound"].performed += StartNewRound;
+    }
+
+    /* Set all blocks, the paddle sprite, and the ball active. Reset the ball and paddle position, lives, and active block count. Update Lives UI
+     * and completion text. Run the launch ball function to start the round. Deregister input action for new round start.
+     * @param context - Unused context of the input action that contains information about it.
+     */
+    private void StartNewRound(InputAction.CallbackContext context)
+    {
+        PlayerInput.actions["NewRound"].performed -= StartNewRound;
+
+        foreach (GameObject Block in Blocks)
+        {
+            Block.SetActive(true);
+        }
+        ActiveBlocks = Blocks.Count;
+
+        Paddle.GetComponent<SpriteRenderer>().enabled = true;
+        Paddle.transform.position = new Vector2(Paddle.transform.position.x, 0);
+
+        Ball.SetActive(true);
+        Ball.transform.position = Vector2.zero;
+        
+        Lives = 3;
+        UIManager.ResetTextForRound(Lives);
+
+        Ball.GetComponent<BallMovement>().RunLaunchBall();
     }
 }

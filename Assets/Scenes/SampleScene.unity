@@ -3349,7 +3349,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 50}
+  m_SizeDelta: {x: 500, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &476070711
 MonoBehaviour:
@@ -4641,7 +4641,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.PlayerInput
   m_Actions: {fileID: -944628639613478452, guid: 5c847453b0bae3d449b63aa720212069, type: 3}
-  m_NotificationBehavior: 2
+  m_NotificationBehavior: 3
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
     m_PersistentCalls:
@@ -4669,6 +4669,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: d2391537-82cf-4a87-b16b-62c3b86156dd
     m_ActionName: 'Paddle/UpDownMovement[/Keyboard/s,/Keyboard/w,/Keyboard/downArrow,/Keyboard/upArrow]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: b596d431-f4f5-4a1d-8af1-cf641d3514eb
+    m_ActionName: Paddle/AnyKey
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Paddle
@@ -4687,6 +4703,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   moveSpeed: 5
+  PlayerInput: {fileID: 0}
 --- !u!1 &716701833
 GameObject:
   m_ObjectHideFlags: 0
@@ -6123,6 +6140,7 @@ MonoBehaviour:
   Ball: {fileID: 1712351595}
   Paddle: {fileID: 701376019}
   UIManager: {fileID: 1022571764}
+  PlayerInput: {fileID: 701376025}
 --- !u!4 &1022571763
 Transform:
   m_ObjectHideFlags: 0
