@@ -26,7 +26,10 @@ public class BallCollision : MonoBehaviour
             ContactPoint2D contact = collision.GetContact(0);
             Vector2 directionPaddle = contact.point - (Vector2)collision.gameObject.transform.position; // Direction from the center of the paddle to the contact point
             Vector2 directionBall = rb.linearVelocity.normalized; // Direction the ball is going before the collision
-            Vector2 direction = (directionPaddle.normalized + directionBall.normalized) / 2;
+
+            //Vector2 direction = (directionPaddle.normalized + directionBall.normalized) / 2;
+            Vector2 direction = (directionPaddle.normalized + directionBall) / 2; // directionBall doesn't need to be normalized twice
+
             rb.linearVelocity = direction.normalized * rb.linearVelocity.magnitude;
         }
     }

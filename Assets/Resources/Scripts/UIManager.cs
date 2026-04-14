@@ -1,6 +1,6 @@
 using UnityEngine;
 using TMPro;
-using System.Linq;
+// Removed uncesessary namespace using System.Linq;
 
 public class UIManager : MonoBehaviour
 {
@@ -14,11 +14,13 @@ public class UIManager : MonoBehaviour
 
     /// Methods
 
-    /*
-     */
     private void Start()
     {
-        CompletionText.SetText("Press space to start. W/S or arrow keys to move up and down.");
+        //CompletionText.SetText("Press space to start. W/S or arrow keys to move up and down.");
+        if (CompletionText != null) // Added null check
+        {
+            CompletionText.SetText("Press space to start. W/S or arrow keys to move up and down.");
+        }
     }
 
     /* Update the text that displays the number of lives left for the player.
