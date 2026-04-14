@@ -13,25 +13,28 @@ public class PlayerController : MonoBehaviour
     // Reference to player input component for reading input actions.
     public PlayerInput PlayerInput;
 
+    private InputAction moveAction;
+
     /// Methods
     /* Get reference to player input component.
      */
     private void Awake()
     {
         PlayerInput = GetComponent<PlayerInput>();
+        moveAction = PlayerInput.actions["UpDownMovement"];
     }
 
     /* Subscribe and unsubscribe to the input action for up down movement.
      */
     private void OnEnable()
     {
-        PlayerInput.actions["UpDownMovement"].performed += OnUpDownMovement;
-        PlayerInput.actions["UpDownMovement"].canceled += OnUpDownMovement;
+        moveAction.performed += OnUpDownMovement;
+        moveAction.canceled += OnUpDownMovement;
     }
     private void OnDisable()
     {
-        PlayerInput.actions["UpDownMovement"].performed -= OnUpDownMovement;
-        PlayerInput.actions["UpDownMovement"].canceled += OnUpDownMovement;
+        moveAction.performed -= OnUpDownMovement;
+        moveAction.canceled += OnUpDownMovement;
     }
 
     /* Read and stores in the input value read from the input action.

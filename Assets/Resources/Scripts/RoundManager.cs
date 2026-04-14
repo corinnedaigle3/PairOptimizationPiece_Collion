@@ -11,7 +11,8 @@ public class RoundManager : MonoBehaviour
     public static event Action<bool> OnRoundComplete;
 
     // Array that references all remaining blocks.
-    public List<GameObject> Blocks = new List<GameObject>();
+    //public List<GameObject> Blocks = new List<GameObject>();
+    List<GameObject> Blocks = new List<GameObject>();
 
     // Int for the number of blocks left in the round.
     private int ActiveBlocks;
